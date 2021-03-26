@@ -1,0 +1,45 @@
+<p>
+    <mat-toolbar color="primary">
+        <span>Login</span>
+    </mat-toolbar>
+</p>
+
+
+
+<div class="container mt-5">
+    <div class="row mx-auto text-center">
+        <div class="col-lg-6 offset-lg-3">
+            <h1 class="titulo">Inicio de sesión</h1>
+            <mat-icon class="icon mt-2" aria-hidden="false" aria-label="Inicio">account_circle</mat-icon>
+            <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
+                <div class="col-lg-12">
+                    <mat-form-field class="container-form" [style.fontSize.px]="16">
+                        <mat-label>Correo</mat-label>
+                        <input matInput formControlName="correo">
+                    </mat-form-field>
+                    <span class="form-text text-danger error" *ngIf="correoRequerido">El correo es requerido</span>
+                    <span class="form-text text-danger error" *ngIf="correoValido">Ingresa un correo válido</span>
+                </div>
+                <div class="col-lg-12 mt-3">
+                    <mat-form-field class="container-form" [style.fontSize.px]="16">
+                        <mat-label>Password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </button>
+                    </mat-form-field>
+                    <span class="form-text text-danger error" *ngIf="passwordRequerido">El password es requerido</span>
+                </div>
+                <div class="col-lg-12 text-right">
+                    <mat-checkbox (change)="cambiar()" class="container-form" labelPosition="before" [style.fontSize.px]="16">Recordar usuario</mat-checkbox>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button mat-raised-button color="primary" class="mt-4 button">Iniciar sesión</button>
+                        <button mat-raised-button color="primary" type="button" routerLink="/registro" class="mt-3 button">Registrarse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

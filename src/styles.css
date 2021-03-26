@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/purple-green.css';
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.container-form {
+    width: 100%;
+}
+
+.img {
+    width: 90%;
+    height: 90%;
+}
+
+.icon {
+    font-size: 150px;
+    margin-right: 100px;
+}
+
+.example-card {
+    width: 100%;
+    background-color: #303030;
+}
+
+.button {
+    width: 95%;
+}
+
+simple-snack-bar span {
+    margin: auto;
+    text-align: center;
+}

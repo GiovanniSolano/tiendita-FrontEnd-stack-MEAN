@@ -1,0 +1,20 @@
+h1 {
+    font-size: 50px;
+}
+
+.iconRegistro {
+    font-size: 340px;
+    margin-right: 300px;
+}
+
+.error {
+    float: left;
+    margin-top: -17px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 679px) {
+    .iconRegistro {
+        font-size: 250px;
+        margin-left: 20px;
+    }
+}
