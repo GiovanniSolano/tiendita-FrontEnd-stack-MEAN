@@ -1,9 +1,23 @@
 <p>
     <mat-toolbar color="primary">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-        <span>My App</span>
-        <span class="example-spacer"></span>
-        <mat-icon>favorite</mat-icon>
-        <mat-icon>share</mat-icon>
+        <mat-toolbar-row>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>home</mat-icon>
+          </button>
+            <span>Mi Tiendita</span>
+        </mat-toolbar-row>
+
+
+
+        <mat-toolbar-row>
+            <span>{{titulo}}</span>
+            <span class="example-spacer"></span>
+            <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+            <button (click)="logout()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+          <mat-icon>logout</mat-icon>
+        </button>
+        </mat-toolbar-row>
     </mat-toolbar>
 </p>

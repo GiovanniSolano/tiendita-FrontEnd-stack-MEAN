@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsuarioService } from '../../services/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +18,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder,
-    private _snackBar: MatSnackBar) { 
+    private _snackBar: MatSnackBar,
+    private _usuarioService: UsuarioService,
+    private router: Router) { 
     
     this.loginForm = this.fb.group({
 
-      correo: ['', [Validators.required, Validators.pattern(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)]],
-      password: ['', Validators.required]
+      correo: ['giovanni@gmail.com', [Validators.required, Validators.pattern(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)]],
+      password: ['123456', Validators.required]
 
 
     });
@@ -29,6 +33,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const estaLogueado = this._usuarioService.estaLogueado();
+
+    if(estaLogueado) {
+      this.router.navigate(['/']);
+    }
 
 
 
@@ -59,7 +69,20 @@ export class LoginComponent implements OnInit {
       });
       return;
     }
+
+    this._usuarioService.loginUsuario(this.loginForm.value)
+      .subscribe(usuarioBD => {        
+        this.guardarEnStorage(usuarioBD['token']);
+        this.router.navigate(['/inicio']);
+       
+
+      });
     
+  }
+
+
+  guardarEnStorage(token) {
+    localStorage.setItem('token', token);
   }
 
   get correoRequerido(): boolean {

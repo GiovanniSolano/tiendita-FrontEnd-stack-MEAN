@@ -9,10 +9,12 @@ import { PagesModuleModule } from './pages/pages-module.module';
 import { AuthModuleModule } from './auth/auth-module.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NoEncontradoComponent } from './no-encontrado/no-encontrado/no-encontrado.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NoEncontradoComponent
   ],
   imports: [
     BrowserModule,
