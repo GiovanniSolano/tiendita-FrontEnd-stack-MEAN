@@ -1,0 +1,21 @@
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title>{{producto.nombre}} -- {{producto.precio | currency: 'MXN'}}</mat-card-title>
+        <mat-card-subtitle>{{producto.marca}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+        <h3>Cantidad: {{producto.cantidad}}</h3>
+        <p>
+            {{producto.descripcion}}
+        </p>
+
+    </mat-card-content>
+    <mat-card-actions class="text-right">
+        <button mat-icon-button [routerLink]="['/inicio/editar-producto', producto._id]" color="primary" aria-label="Editar producto">
+            <mat-icon>edit</mat-icon>
+          </button>
+        <button mat-icon-button color="warn" aria-label="Eliminar Producto">
+            <mat-icon>delete</mat-icon>
+          </button> </mat-card-actions>
+</mat-card>

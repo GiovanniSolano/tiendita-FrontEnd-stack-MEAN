@@ -31,7 +31,7 @@
                     <span class="form-text text-danger error" *ngIf="passwordRequerido">El password es requerido</span>
                 </div>
                 <div class="col-lg-12 text-right">
-                    <mat-checkbox (change)="cambiar()" class="container-form" labelPosition="before" [style.fontSize.px]="16">Recordar usuario</mat-checkbox>
+                    <mat-checkbox (change)="cambiar()" color="primary" [checked]="recordar" class="container-form" labelPosition="before" [style.fontSize.px]="16">Recordar usuario</mat-checkbox>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">

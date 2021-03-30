@@ -1,31 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
+import { delay, filter, map } from 'rxjs/operators';
+import { UsuarioService } from '../../services/usuario.service';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   
   titulo = '';
   tituloSubs$: Subscription;
+  tituloNav = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              public _usuarioService: UsuarioService
+              ) {
+
+
+                
+
+
+                this.tituloSubs$ = this.getArgumentosRuta()
+
+                .subscribe(({titulo}) => {       
+                               
+                             
+                  this.titulo = titulo;
+                  document.title = `Tiendita - ${titulo}`;
+                });
 
 
 
-    this.tituloSubs$ = this.getArgumentosRuta()
-    .subscribe(({titulo}) => {
-      this.titulo = titulo;
-      document.title = `Tiendita - ${titulo}`;
-    });
-
-  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   ngOnDestroy() {

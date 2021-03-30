@@ -14,7 +14,7 @@ import { NoEncontradoComponent } from './no-encontrado/no-encontrado/no-encontra
 @NgModule({
   declarations: [
     AppComponent,
-    NoEncontradoComponent
+    NoEncontradoComponent,
   ],
   imports: [
     BrowserModule,

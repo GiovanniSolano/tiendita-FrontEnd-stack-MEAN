@@ -1,1 +1,15 @@
-<p>productos works!</p>
+<div class="row mt-4">
+    <div class="col-lg-12">
+        <div class="example-button-row float-right">
+            <button mat-raised-button color="primary" [routerLink]="['/inicio/agregar-producto']">Agregar Producto</button>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let producto of productos">
+            <app-card-producto [producto]="producto"></app-card-producto>
+        </div>
+    </div>
+</div>

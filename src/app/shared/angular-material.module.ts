@@ -12,10 +12,13 @@ import {MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule} from '@angular/material/core';  
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { FooterComponent } from './footer/footer.component';
+import {MatSelectModule} from '@angular/material/select';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent, FooterComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -28,7 +31,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSelectModule,
+    FlexLayoutModule
   ],
 
   exports: [
@@ -43,7 +48,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FooterComponent,
+    MatSelectModule,
+    FlexLayoutModule
   ]
 })
 export class AngularMaterialModule { }

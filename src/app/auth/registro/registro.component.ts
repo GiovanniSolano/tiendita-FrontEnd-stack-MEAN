@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core/datetime';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MensajesInformativosService } from '../../services/mensajes-informativos.service';
+import { UsuarioService } from '../../services/usuario.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -13,7 +16,10 @@ export class RegistroComponent implements OnInit {
 
   registroForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder,
+     private _mensajeService: MensajesInformativosService,
+     private _usuarioService: UsuarioService,
+     private router: Router) {
 
 
     this.registroForm = this.fb.group({
@@ -33,11 +39,7 @@ export class RegistroComponent implements OnInit {
   registro() {
     
     if(this.registroForm.invalid) {
-      this._snackBar.open('Ingresa los datos correctamente', '', {
-        duration: 2000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top'
-      });
+      this._mensajeService.mostrarMensaje('Ingresa los datos correctamente');
       Object.values(this.registroForm.controls).forEach(form =>{
         form.markAsTouched();
       });
@@ -45,6 +47,20 @@ export class RegistroComponent implements OnInit {
       return;
 
     }
+
+    this._usuarioService.registroUsuario(this.registroForm.value)
+      .subscribe(usuarioBD => {
+
+        this._usuarioService.guardarEnStorage('token', usuarioBD['token']);
+        this.router.navigate(['/inicio']);
+
+        
+
+      }, (error) => {
+
+        this._mensajeService.mostrarMensaje(error.error.msg);
+
+      });
 
 
 

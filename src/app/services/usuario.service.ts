@@ -24,6 +24,12 @@ export class UsuarioService {
 
   }
 
+  registroUsuario(usuario: Usuario) {
+
+    return this.http.post(`${URL_API}/usuarios`, usuario);
+
+  }
+
   validarToken() {
 
     const token = localStorage.getItem('token');
@@ -61,6 +67,10 @@ export class UsuarioService {
 
     return (token) ? true : false;
 
+  }
+
+  guardarEnStorage(nombreItem: string, item: string) {
+    localStorage.setItem(nombreItem, item);
   }
 
 }
