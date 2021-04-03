@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProveedorService } from '../../services/proveedor.service';
+import { MensajesInformativosService } from '../../services/mensajes-informativos.service';
 
 @Component({
   selector: 'app-agregar-editar-producto',
@@ -19,7 +20,9 @@ export class AgregarEditarProductoComponent implements OnInit {
   constructor(private _ActivatedRoute: ActivatedRoute,
               private _productoService: ProductoService,
               private fb: FormBuilder,
-              private _proveedoresService: ProveedorService) {
+              private _proveedoresService: ProveedorService,
+              private _mensajeInformativo: MensajesInformativosService,
+              private router: Router) {
 
     this.titulo = 'Agregar';
     this.id = this._ActivatedRoute.snapshot.params['id'];
@@ -67,12 +70,53 @@ export class AgregarEditarProductoComponent implements OnInit {
   }
 
   agregarEditarProducto() {
-    if(this.productoForm.valid) {
+    if(this.productoForm.invalid) {
+
+      this._mensajeInformativo.mostrarMensaje('Ingresa tus datos correctamente');
+
+      Object.values(this.productoForm.controls).forEach(control => {
+
+        control.markAsTouched();
+
+      });
+
+      return;
+      
+    }
+
+    if(this.id !== undefined) {
+
+      this._productoService.editarProducto(this.id, this.productoForm.value)
+        .subscribe(resp => {
+
+          this.router.navigate(['/inicio']);
+          this._mensajeInformativo.mostrarMensaje('Producto editado correctamente');
+
+
+        }, (error) => {
+
+          this._mensajeInformativo.mostrarMensaje(error.error.msg);
+
+          
+        });   
+
+
+
+    } else {
+
       this._productoService.agregarProducto(this.productoForm.value)
         .subscribe(resp => {
-          console.log(resp);
+
+          this.router.navigate(['/inicio']);
+          this._mensajeInformativo.mostrarMensaje('Producto agregado correctamente');
+          
+        }, (error) => {
+
+          this._mensajeInformativo.mostrarMensaje(error.error.msg);
+
           
         });
+
     }
     
   }
@@ -96,6 +140,31 @@ export class AgregarEditarProductoComponent implements OnInit {
 
     });
 
+  }
+
+
+  get nombreRequerido(): boolean {
+    return this.productoForm.get('nombre').invalid && this.productoForm.get('nombre').touched;
+  }
+
+  get marcaRequerida(): boolean {
+    return this.productoForm.get('marca').invalid && this.productoForm.get('marca').touched;
+  }
+
+  get descripcionRequerida(): boolean {
+    return this.productoForm.get('descripcion').invalid && this.productoForm.get('descripcion').touched;
+  }
+
+  get precioRequerido(): boolean {
+    return this.productoForm.get('precio').invalid && this.productoForm.get('precio').touched;
+  }
+
+  get cantidadRequerida(): boolean {
+    return this.productoForm.get('cantidad').invalid && this.productoForm.get('cantidad').touched;
+  }
+
+  get proveedorRequerido(): boolean {
+    return this.productoForm.get('proveedor').invalid && this.productoForm.get('proveedor').touched;
   }
 
 }

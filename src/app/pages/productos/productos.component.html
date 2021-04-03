@@ -6,12 +6,15 @@
     </div>
 </div>
 
+<div class="top" *ngIf="cargando">
 
+    <app-spinner [mensaje]="'Cargando productos...'"></app-spinner>
+</div>
 
-<div class="content">
+<div class="content animate__animated animate__fadeIn" *ngIf="!cargando">
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
         <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let producto of productos">
-            <app-card-producto [producto]="producto"></app-card-producto>
+            <app-card-producto [producto]="producto" ($productoEliminar)="eliminarProducto($event)"></app-card-producto>
         </div>
     </div>
 </div>

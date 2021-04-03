@@ -5,3 +5,7 @@
 .content>mat-card {
     margin-bottom: 16px;
 }
+
+.top {
+    margin-top: 100px;
+}

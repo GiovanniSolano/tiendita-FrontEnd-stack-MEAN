@@ -1,12 +1,14 @@
-<p>
+<p *ngIf="mostrar">
     <mat-toolbar color="primary">
         <span>Registro</span>
     </mat-toolbar>
 </p>
 
+<app-spinner [mensaje]="'Registrando usuario...'" *ngIf="progreso"></app-spinner>
 
 
-<div class="container mt-5">
+
+<div class="container mt-5" *ngIf="mostrar">
     <div class="row mx-auto text-center">
         <div class="col-lg-12">
             <h1 class="titulo">Registro de usuario</h1>

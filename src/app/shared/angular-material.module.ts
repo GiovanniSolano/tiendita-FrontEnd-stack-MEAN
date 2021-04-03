@@ -15,10 +15,15 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { FooterComponent } from './footer/footer.component';
 import {MatSelectModule} from '@angular/material/select';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HeaderComponent } from './header/header.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MensajeConfirmacionComponent } from './mensaje-confirmacion/mensaje-confirmacion.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent],
+  declarations: [NavbarComponent, FooterComponent, HeaderComponent, SpinnerComponent, MensajeConfirmacionComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -33,7 +38,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSnackBarModule,
     MatTooltipModule,
     MatSelectModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
 
   exports: [
@@ -51,7 +58,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatTooltipModule,
     FooterComponent,
     MatSelectModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    HeaderComponent,
+    SpinnerComponent,
+    MatProgressSpinnerModule,
+    MatDialogModule
   ]
 })
 export class AngularMaterialModule { }

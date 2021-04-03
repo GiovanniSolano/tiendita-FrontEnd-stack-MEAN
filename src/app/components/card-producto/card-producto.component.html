@@ -15,7 +15,7 @@
         <button mat-icon-button [routerLink]="['/inicio/editar-producto', producto._id]" color="primary" aria-label="Editar producto">
             <mat-icon>edit</mat-icon>
           </button>
-        <button mat-icon-button color="warn" aria-label="Eliminar Producto">
+        <button mat-icon-button color="warn" (click)="eliminarProducto(producto)" class="delete" aria-label="Eliminar Producto">
             <mat-icon>delete</mat-icon>
           </button> </mat-card-actions>
 </mat-card>

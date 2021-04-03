@@ -1,12 +1,12 @@
-<p>
+<p *ngIf="mostrar">
     <mat-toolbar color="primary">
         <span>Login</span>
     </mat-toolbar>
 </p>
 
+<app-spinner [mensaje]="'Iniciando sesión...'" *ngIf="progreso"></app-spinner>
 
-
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="mostrar">
     <div class="row mx-auto text-center">
         <div class="col-lg-6 offset-lg-3">
             <h1 class="titulo">Inicio de sesión</h1>

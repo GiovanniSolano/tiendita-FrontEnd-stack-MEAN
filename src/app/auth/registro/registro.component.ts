@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MensajesInformativosService } from '../../services/mensajes-informativos.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
+import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
 export class RegistroComponent implements OnInit {
 
   hide = true;
+  mostrar = true;
+  progreso = false;
 
   registroForm: FormGroup;
 
@@ -48,8 +51,15 @@ export class RegistroComponent implements OnInit {
 
     }
 
+    this.mostrar = false;
+    this.progreso = true;
+
     this._usuarioService.registroUsuario(this.registroForm.value)
+    .pipe(delay(2000))
       .subscribe(usuarioBD => {
+
+        this.progreso = false;
+
 
         this._usuarioService.guardarEnStorage('token', usuarioBD['token']);
         this.router.navigate(['/inicio']);
@@ -57,6 +67,9 @@ export class RegistroComponent implements OnInit {
         
 
       }, (error) => {
+
+        this.progreso = false;
+        this.mostrar = true;
 
         this._mensajeService.mostrarMensaje(error.error.msg);
 

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 import { MensajesInformativosService } from '../../services/mensajes-informativos.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,8 @@ export class LoginComponent implements OnInit {
   checked = false;
 
   recordar = false;
+  mostrar = true;
+  progreso = false;
 
   loginForm: FormGroup;
 
@@ -75,8 +78,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    this.mostrar = false;
+    this.progreso = true;
+
     this._usuarioService.loginUsuario(this.loginForm.value)
-      .subscribe(usuarioBD => {        
+      .pipe(delay(2000))
+      .subscribe(usuarioBD => {      
+        
+        this.progreso = false;
 
         
         this._usuarioService.guardarEnStorage('token', usuarioBD['token']);
@@ -91,7 +100,10 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/inicio']);
        
 
-      }, (error) => {        
+      }, (error) => {   
+        
+        this.progreso = false;
+        this.mostrar = true;
 
         this._mensajesService.mostrarMensaje(error.error.msg);
 

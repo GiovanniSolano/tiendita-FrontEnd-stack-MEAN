@@ -19,7 +19,29 @@ export class ProductoService {
    }
 
   agregarProducto(producto) {
-    return this.http.post(`${URL_API}/productos`, producto);
+    return this.http.post(`${URL_API}/productos`, producto, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
+  editarProducto(id, producto) {
+    return this.http.put(`${URL_API}/productos/${id}`, producto, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
+  eliminarProducto(id) {
+
+    return this.http.delete(`${URL_API}/productos/${id}`, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
   }
 
   obtenerProductos() {
