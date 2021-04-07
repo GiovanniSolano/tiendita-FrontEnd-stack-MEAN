@@ -62,6 +62,12 @@ export class ProductoService {
 
   }
 
+  imagen(formdata) {
+
+    return this.http.post(`${URL_API}/upload`, formdata);
+
+  }
+
   obtenerToken() {
     this.token = localStorage.getItem('token');
   }

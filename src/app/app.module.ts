@@ -10,6 +10,7 @@ import { AuthModuleModule } from './auth/auth-module.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NoEncontradoComponent } from './no-encontrado/no-encontrado/no-encontrado.component';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators'; 
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { NoEncontradoComponent } from './no-encontrado/no-encontrado/no-encontra
     AngularMaterialModule,
     PagesModuleModule,
     AuthModuleModule,
-    HttpClientModule
+    HttpClientModule,
+    RxReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

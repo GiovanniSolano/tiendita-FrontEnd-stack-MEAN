@@ -3,7 +3,7 @@
         <mat-card-title>{{producto.nombre}} -- {{producto.precio | currency: 'MXN'}}</mat-card-title>
         <mat-card-subtitle>{{producto.marca}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <img mat-card-image [src]="producto.url_img" [alt]="producto.nombre">
     <mat-card-content>
         <h3>Cantidad: {{producto.cantidad}}</h3>
         <p>

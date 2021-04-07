@@ -3,11 +3,15 @@
     <div class="row">
         <div class="col-lg-12 text-center">
             <button mat-raised-button color="secondary" routerLink="/inicio/productos" class="m-3">Regresar</button>
-            <button mat-raised-button color="primary" type="submit" class="m-3">{{titulo}} Producto</button>
+            <button mat-raised-button color="primary" *ngIf="!enviado" [disabled]="enviarForm || productoForm.invalid" type="submit" class="m-3">{{titulo}} Producto</button>
+            <button mat-raised-button color="primary" *ngIf="enviado" [disabled]="true" type="submit" class="m-3">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Agregando producto...
+            </button>
 
         </div>
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3 animate__animated animate__fadeIn">
         <div class="col-lg-6">
             <div class="col-lg-12">
                 <mat-form-field class="container-form" [style.fontSize.px]="16">
@@ -75,8 +79,15 @@
             </div> -->
         </div>
 
-        <div class="col-lg-6 text-center mt-5">
-            <img src="../../../assets/img/img-icon.jpg" class="img-responsive img">
+        <div class="col-lg-6 text-center mt-5 animate__animated animate__fadeIn animate__delay-0.5s">
+            <img [src]="imageSrc" *ngIf="imageSrc" class="img-responsive img ">
+
+            <div class="container-form mt-5" [style.fontSize.px]="16">
+                <input type="file" (change)="fileChange($event)" value="img_id" formControlName="imagen">
+
+            </div>
+            <!-- <span class="form-text text-danger" *ngIf="imagenRequerida">Selecciona una imagen</span> -->
+            <span class="form-text text-danger" *ngIf="tiposValidos">{{mensajeTipos}}</span>
         </div>
     </div>
 </form>

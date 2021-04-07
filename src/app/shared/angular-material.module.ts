@@ -20,6 +20,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MensajeConfirmacionComponent } from './mensaje-confirmacion/mensaje-confirmacion.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFileUploadModule } from 'mat-file-upload';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatSelectModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFileUploadModule
   ],
 
   exports: [
@@ -62,7 +66,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     HeaderComponent,
     SpinnerComponent,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFileUploadModule
   ]
 })
 export class AngularMaterialModule { }
