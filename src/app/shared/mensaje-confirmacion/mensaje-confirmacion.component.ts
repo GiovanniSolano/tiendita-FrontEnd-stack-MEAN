@@ -10,12 +10,14 @@ export class MensajeConfirmacionComponent implements OnInit {
 
 
   mensaje: string;
+  titulo: string;
   btn = 'aceptar';
 
 
   constructor(public dialogRef: MatDialogRef<MensajeConfirmacionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.mensaje = data.mensaje;
+      this.titulo = data.titulo;
      }
 
   ngOnInit(): void {

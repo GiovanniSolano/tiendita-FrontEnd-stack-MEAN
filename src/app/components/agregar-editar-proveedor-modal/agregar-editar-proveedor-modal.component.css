@@ -1,0 +1,16 @@
+.center {
+    text-align: center;
+}
+
+.margin {
+    margin-left: 60px;
+}
+
+.mat-form-field {
+    color: white;
+}
+
+.error {
+    float: left;
+    margin-top: -20px;
+}

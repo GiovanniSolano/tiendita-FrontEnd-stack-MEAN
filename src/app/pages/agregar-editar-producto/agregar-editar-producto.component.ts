@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProveedorService } from '../../services/proveedor.service';
 import { MensajesInformativosService } from '../../services/mensajes-informativos.service';
+import { AgregarEditarProveedorModalComponent } from '../../components/agregar-editar-proveedor-modal/agregar-editar-proveedor-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MensajeConfirmacionComponent } from 'src/app/shared/mensaje-confirmacion/mensaje-confirmacion.component';
 
 @Component({
   selector: 'app-agregar-editar-producto',
@@ -17,18 +20,21 @@ export class AgregarEditarProductoComponent implements OnInit {
   id: string;
   titulo: string;
   productoForm: FormGroup;
-  proveedores: any = [];
+  proveedores: any[] = [];
   uploadedFile: File;
   imageSrc = '';
   tiposValidos = false;
   mensajeTipos = '';
   enviarForm = true;
   enviado = false;  
+  proveedor_id: string;
 
 
   constructor(private _ActivatedRoute: ActivatedRoute,
               private _productoService: ProductoService,
               private fb: FormBuilder ,
+              public dialog: MatDialog,
+              private el: ElementRef,
               private _proveedoresService: ProveedorService,
               private _mensajeInformativo: MensajesInformativosService,
               private router: Router) {
@@ -43,20 +49,34 @@ export class AgregarEditarProductoComponent implements OnInit {
     
     
     
+    
+    
     this.productoForm = this.fb.group({
       
       nombre: ['', Validators.required],
       marca: ['', Validators.required],
       descripcion: ['', Validators.required],
       img_id: [''],
-      imagen: [''],
       precio: ['', Validators.required],
       cantidad: ['', Validators.required],
       proveedor: ['', Validators.required],
       url_img: ['']
     });    
   }
-
+  
+  ngAfterViewChecked(): void {
+    //Called after every check of the component's view. Applies to components only.
+    //Add 'implements AfterViewChecked' to the class.
+    
+    let eliminarElement = this.el.nativeElement.querySelectorAll('.delete');
+    
+    eliminarElement.forEach(function(element) {      
+      if(element.classList.contains('cdk-program-focused')) {
+        element.classList.remove('cdk-program-focused'); 
+      }
+    });      
+    
+  }
 
   ngOnInit(): void {
 
@@ -77,18 +97,32 @@ export class AgregarEditarProductoComponent implements OnInit {
 
   obtenerProveedoresBD() {
     this._proveedoresService.obtenerProveedores().subscribe(resp => {
-
-      this.proveedores = resp['proveedores']
+      
+      this.proveedores = resp['proveedores'];
       // console.log(this.proveedores);
       
 
+    }, (error) => {
+
+      this._mensajeInformativo.mostrarMensaje(error.error.msg);
+
+      
     });
   }
 
   fileChange(event) {
+
+    if(event === null) {
+
+      this.mensajeTipos = 'La imagen es requerida';
+      this.tiposValidos = true;
+      this.enviarForm = true;
+      return this.imageSrc = '../../../assets/img/img-icon.png';
+  }
+    
     this.tiposValidos = false;
     const reader = new FileReader();
-    const img = event.target.files[0];    
+    const img = event[0];    
 
     if(!img) {
 
@@ -100,8 +134,8 @@ export class AgregarEditarProductoComponent implements OnInit {
     }
 
 
-    if (!(/\.(jpg|png|gif)$/i).test(img.name)) {
-      this.mensajeTipos = 'Los tipos permitidos son: jpg, png, gif';
+    if (!(/\.(jpg|png|jpeg)$/i).test(img.name)) {
+      this.mensajeTipos = 'Los tipos permitidos son: jpg, jpeg, png';
       this.tiposValidos = true;
       this.enviarForm = true;
       return this.imageSrc = '../../../assets/img/img-icon.png';
@@ -111,8 +145,8 @@ export class AgregarEditarProductoComponent implements OnInit {
     this.enviarForm = false;
 
     
-    if(event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
+    if(event && event.length) {
+      const [file] = event;
       this.uploadedFile = file;
       reader.readAsDataURL(file);
     
@@ -213,6 +247,7 @@ export class AgregarEditarProductoComponent implements OnInit {
 
           const producto: any = resp['productoBD'];
           this.imageSrc = producto.url_img;
+          this.proveedor_id = producto.proveedor;
           this.enviarForm = false;          
 
           
@@ -241,6 +276,95 @@ export class AgregarEditarProductoComponent implements OnInit {
     });
 
   }
+
+
+  agregarProveedor() {
+    const dialogRef = this.dialog.open(AgregarEditarProveedorModalComponent, {
+      width: '350px',
+      data: {mensaje: 'Agregar Proveedor'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === 'aceptar') {
+        this.obtenerProveedoresBD();
+      };
+    });
+  }
+
+  editarProveedor() {
+    const proveedor_id = this.productoForm.get('proveedor').value;
+
+
+    const existeProveedor = this.proveedores.filter(proveedor => proveedor._id === proveedor_id);
+
+    if(existeProveedor.length === 0) {
+
+      return this._mensajeInformativo.mostrarMensaje('No se puede editar algo que no existe');
+    
+
+    }    
+
+    const dialogRef = this.dialog.open(AgregarEditarProveedorModalComponent, {
+      width: '350px',
+      data: {mensaje: 'Editar Proveedor', id_proveedor: proveedor_id}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {      
+      if(result === 'aceptar') {        
+        this.obtenerProveedoresBD();
+
+      };
+    });
+
+
+
+  }
+
+
+  eliminarProveedor() {
+    const proveedor_id = this.productoForm.get('proveedor').value;
+    const existeProveedor = this.proveedores.filter(proveedor => proveedor._id === proveedor_id);
+
+    if(existeProveedor.length === 0) {
+
+      return this._mensajeInformativo.mostrarMensaje('No se puede eliminar algo que no existe');
+    
+
+    }   
+
+    const dialogRef = this.dialog.open(MensajeConfirmacionComponent, {
+      width: '350px',
+      data: {mensaje: `Estás seguro de eliminar al proveedor?`, 
+              titulo: 'Proveedor'}
+    });
+
+    
+    dialogRef.afterClosed().subscribe(result => {
+
+      if(result === 'aceptar') {
+
+        this._proveedoresService.eliminarProveedor(proveedor_id)
+          .subscribe(resp => {
+
+            this.obtenerProveedoresBD();
+            this.productoForm.patchValue({
+              proveedor: this.proveedor_id
+            });
+            this._mensajeInformativo.mostrarMensaje('Proveedor eliminado');
+
+          }, (error) => {
+
+
+            this._mensajeInformativo.mostrarMensaje(error.error.msg);
+
+
+          });
+
+      }  
+    });
+    
+  }
+  
 
 
   get nombreRequerido(): boolean {

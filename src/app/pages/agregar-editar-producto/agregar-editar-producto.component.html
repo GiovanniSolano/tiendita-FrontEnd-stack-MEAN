@@ -6,7 +6,7 @@
             <button mat-raised-button color="primary" *ngIf="!enviado" [disabled]="enviarForm || productoForm.invalid" type="submit" class="m-3">{{titulo}} Producto</button>
             <button mat-raised-button color="primary" *ngIf="enviado" [disabled]="true" type="submit" class="m-3">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Agregando producto...
+                {{titulo === 'Agregar' ? 'Agregando' : 'Editando'}} producto...
             </button>
 
         </div>
@@ -58,17 +58,25 @@
 
             </div>
             <div class="col-lg-12 mt-2">
-                <mat-form-field class="container-form" [style.fontSize.px]="16">
+                <mat-form-field class="container-form-select" [style.fontSize.px]="16">
                     <mat-label>Proveedor</mat-label>
-                    <mat-select formControlName="proveedor">
+                    <mat-select formControlName="proveedor" class="example-right-align">
                         <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor._id">
                             {{proveedor.nombre}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <button mat-icon-button color="primary" [disabled]="this.productoForm.controls['proveedor'].errors" matPrefix type="button" class="delete" (click)="editarProveedor()" aria-label="Editar producto">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                <button mat-icon-button color="warn" [disabled]="this.productoForm.controls['proveedor'].errors" matPrefix class="delete" type="button" (click)="eliminarProveedor()" aria-label="Eliminar producto">
+                        <mat-icon>delete</mat-icon>
+                    </button>
                 <span class="form-text text-danger error" *ngIf="proveedorRequerido">El proveedor es requerido</span>
-
-
+                <span class="float-right">¿Proveedor no existente?<button (click)="agregarProveedor()" type="button" class="delete" mat-icon-button color="primary" aria-label="Agregar proveedor">
+                        <mat-icon>add_circle</mat-icon>
+                    </button> 
+                </span>
             </div>
             <!-- <div class="col-lg-12 mt-2">
                 <mat-form-field class="container-form" [style.fontSize.px]="16">
@@ -82,9 +90,9 @@
         <div class="col-lg-6 text-center mt-5 animate__animated animate__fadeIn animate__delay-0.5s">
             <img [src]="imageSrc" *ngIf="imageSrc" class="img-responsive img ">
 
-            <div class="container-form mt-5" [style.fontSize.px]="16">
-                <input type="file" (change)="fileChange($event)" value="img_id" formControlName="imagen">
-
+            <div class="container-form mt-3" [style.fontSize.px]="16">
+                <mat-file-upload [allowMultipleFiles]="false" [customSvgIcon]="null" [selectButtonText]="'Cargar imagen'" (selectedFilesChanged)="fileChange($event)" [showUploadButton]="false" [labelText]="'Selecciona una imagen'" [acceptedTypes]="'.png, .jpg, .jpeg'"></mat-file-upload>
+                <!-- <input type="file" (change)="fileChange($event)"> -->
             </div>
             <!-- <span class="form-text text-danger" *ngIf="imagenRequerida">Selecciona una imagen</span> -->
             <span class="form-text text-danger" *ngIf="tiposValidos">{{mensajeTipos}}</span>

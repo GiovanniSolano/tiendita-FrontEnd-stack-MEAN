@@ -66,7 +66,8 @@ export class ProductosComponent {
 
     const dialogRef = this.dialog.open(MensajeConfirmacionComponent, {
       width: '350px',
-      data: {mensaje: `Estás seguro de eliminar el producto: ${producto.nombre}?`}
+      data: {mensaje: `Estás seguro de eliminar el producto: ${producto.nombre}?`,
+            titulo: 'Producto'}
     });
 
     dialogRef.afterClosed().subscribe(result => {

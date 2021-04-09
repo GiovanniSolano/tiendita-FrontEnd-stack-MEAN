@@ -1,0 +1,20 @@
+<h1 mat-dialog-title class="center">{{mensaje}}</h1>
+<form [formGroup]="proveedorForm" (ngSubmit)="agregarProveedor()" autocomplete="off">
+    <div mat-dialog-content class="center mt-4">
+        <mat-form-field class="container-form" [style.fontSize.px]="20">
+            <mat-label>Nombre del proveedor</mat-label>
+            <input matInput formControlName="nombre">
+        </mat-form-field>
+        <span class="form-text text-danger error" *ngIf="nombreRequerido">El nombre es requerido</span>
+        <mat-form-field class="container-form mt-2" [style.fontSize.px]="20">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telefono">
+        </mat-form-field>
+        <span class="form-text text-danger error" *ngIf="telefonoRequerido">El teléfono es requerido</span>
+        <span class="form-text text-danger error" *ngIf="telefonoValido">Ingresa 10 digitos</span>
+    </div>
+    <div mat-dialog-actions class="margin">
+        <button mat-button type="button" (click)="onNoClick()">Cancelar</button>
+        <button mat-button [mat-dialog-close]="btn" type="submit" [disabled]="proveedorForm.invalid">{{accion}}</button>
+    </div>
+</form>
